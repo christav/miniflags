@@ -1,0 +1,14 @@
+{
+  "name": "miniflags",
+  "version": "1.0.0",
+  "description": "Really simple command line flag parsing",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "author": "Chris Tavares <cct@tavaresstudios.com>",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "ava": "^3.15.0"
+  }
+}
