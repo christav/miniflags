@@ -2,7 +2,7 @@
 
 const test = require('ava')
 
-const { boolFlag, stringFlag, requiredFlag, parseArgs } = require('../index')
+const { boolFlag, stringFlag, restFlag, requiredFlag, parseArgs } = require('../index')
 
 test('multiple flags match multiple args in argv', t => {
   const tflag = boolFlag('-t')
@@ -43,4 +43,33 @@ test('Combo of required and optional flags match argv as expected', t => {
   t.is(reqFlag.value, 'rs')
   t.is(optFlag2.value, 'opt string')
   t.false(optFlag1.matched)
+})
+
+test('restFlag picks up all unmatched args', t => {
+  const f1 = boolFlag('-v')
+  const f2 = stringFlag('-f', '--file')
+  const rest = restFlag()
+
+  const argv = '-v z.js --file outfile.txt a.js b.js c.js'.split(' ')
+
+  parseArgs([f1, f2, rest], argv)
+
+  t.true(f1.matched)
+  t.is(f2.value, 'outfile.txt')
+  t.deepEqual(rest.value, 'z.js a.js b.js c.js'.split(' '))
+})
+
+test('rest flag matches empty array if no left over args', t => {
+  const f1 = boolFlag('-v', '--verbose')
+  const f2 = stringFlag('-f', '--file')
+  const rest = restFlag()
+
+  const argv = '-f outfile.txt --verbose'.split(' ')
+
+  parseArgs([f1, f2, rest], argv)
+
+  t.true(f1.matched)
+  t.is(f2.value, 'outfile.txt')
+  t.deepEqual(rest.value, [])
+
 })
