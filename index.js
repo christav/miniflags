@@ -14,7 +14,7 @@ const defaultFlagState = (flagFn, unmatchedValue) => {
 }
 
 const argErrorName = (flag) =>
-  [].concat(!!flag.shortFlag ? [flag.shortFlag] : [], !!flag.longFlag ? [flag.LongFlag]: []).join('|')
+  [].concat(!!flag.shortFlag ? [flag.shortFlag] : [], !!flag.longFlag ? [flag.longFlag]: []).join('|')
 
 const setFlagError = (flag, messageFn) => {
   flag.value = null
